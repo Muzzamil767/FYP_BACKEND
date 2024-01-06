@@ -5,22 +5,24 @@ const asyncHandler = require("../middlewares/catchAsyncErrors");
 
 // Create New Order
 exports.createOrder = asyncHandler(async (req, res, next) => {
+  const { shippingInfo, orderItems } = req.body;
 
-  
-  const {
-    shippingInfo,
-    orderItems,
-  } = req.body;
+  let totalPrice = req.body.orderItems.reduce(
+    (acc, item) => item.price * item.quantity + acc,
+    0
+  );
+
+  totalPrice = totalPrice + 1;
 
   shippingInfo.pincode = Number(shippingInfo.pincode);
   shippingInfo.phonenumber = Number(shippingInfo.phonenumber);
-  
 
   const order = await Order.create({
     shippingInfo,
     orderItems,
     paidAt: Date.now(),
     userId: req.user._id,
+    totalPrice,
   });
 
   res.status(200).json({

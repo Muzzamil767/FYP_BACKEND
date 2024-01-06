@@ -39,13 +39,9 @@ const orderSchema = new mongoose.Schema({
     ref: "user",
     required: true,
   },
-  itemsPrice: {
-    type: Number,
-    default: 0,
-  },
   shippingPrice: {
     type: Number,
-    default: 0,
+    default: 1,
   },
   totalPrice: {
     type: Number,

@@ -26,7 +26,7 @@ exports.createNewAppointment = asyncHandler(async (req, res, next) => {
 exports.getAllAppointments = asyncHandler(async (req, res, next) => {
   const appointments = await Appointment.find({
     doctor: req.user._id,
-  }).populate("patient", "name avatar");
+  }).populate("patient", "name avatar email");
   res.status(200).json({
     success: true,
     appointments,
@@ -98,7 +98,7 @@ exports.getActiveAppointments = asyncHandler(async (req, res, next) => {
   const appointments = await Appointment.find({
     status: "accepted",
     doctor: req.user._id,
-  }).populate("patient", "name avatar");
+  }).populate("patient", "name avatar email");
 
   res.status(200).json({
     success: true,
